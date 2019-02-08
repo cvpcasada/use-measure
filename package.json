@@ -1,9 +1,10 @@
 {
   "name": "use-measure",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Cyrus Venn Casada",
   "homepage": "https://github.com/cvpcasada/use-measure",
   "license": "MIT",
+  "main": "use-measure.js",
   "scripts": {
     "start": "NODE_ENV=development babel -w ./src --out-dir . --extensions \".ts,.tsx\"",
     "build": "NODE_ENV=production yarn clean && babel ./src --out-dir . --extensions \".ts,.tsx\" && tsc",
@@ -30,5 +31,8 @@
   },
   "dependencies": {
     "resize-observer-polyfill": "^1.5.1"
-  }
+  },
+  "files": [
+    "*"
+  ]
 }
