@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=development babel -w ./src --out-dir . --extensions \".ts,.tsx\"",
-    "build": "NODE_ENV=production npm run clean && babel ./src --out-dir . --extensions \".ts,.tsx\" && tsc",
+    "build": "NODE_ENV=production yarn clean && babel ./src --out-dir . --extensions \".ts,.tsx\" && tsc",
     "clean": "rimraf *.d.ts *.js",
     "format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*' 'exampe/src/**/*' 'example/README.md' 'README.md'",
-    "prepare": "npm run build",
+    "prepare": "yarn build",
     "deploy": "np"
   },
   "peerDependencies": {
@@ -23,9 +23,8 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
     "@babel/runtime": "^7.1.5",
-    "@types/jest": "^23.3.9",
     "@types/react": "^16.7.6",
-    "np": "^3.0.4",
+    "np": "^4.0.2",
     "prettier": "^1.14.3",
     "typescript": "^3.1.6"
   },
