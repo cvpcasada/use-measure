@@ -1,6 +1,5 @@
 import { useRef, useState, useLayoutEffect } from "react";
-import ResizeObserver from 'resize-observer-polyfill';
- 
+import ResizeObserver from "resize-observer-polyfill";
 export interface DOMRectReadOnly {
   readonly x: number;
   readonly y: number;
@@ -14,30 +13,27 @@ export interface DOMRectReadOnly {
 
 export default function useMeasure() {
   const nodeRef = useRef<Element>(null);
-  const [contentRect, setContentRect] = useState<DOMRectReadOnly | null>(null);
+  const [bounds, setContentRect] = useState<DOMRectReadOnly>(
+    // DOMRectReadOnly.fromRect()
+    { x: 0, y: 0, width: 0, height: 0, top: 0, right: 0, bottom: 0, left: 0 }
+  );
 
   useLayoutEffect(() => {
-    let animId: number | null = null;
-    
-    const measure: ResizeObserverCallback = entries => {
-      animId = requestAnimationFrame(() => {
-        setContentRect(entries[0].contentRect);
+    let animationFrameId : number | null = null;
+    const measure: ResizeObserverCallback = ([entry]) => {
+      animationFrameId = window.requestAnimationFrame(() => {
+        setContentRect(entry.contentRect);
       });
     };
 
-    const resizeObserver = new ResizeObserver(measure);
-
-    if (nodeRef && nodeRef.current) {
-      resizeObserver.observe(nodeRef.current);
-    }
+    const ro = new ResizeObserver(measure);
+    ro.observe(nodeRef.current!);
 
     return () => {
-      resizeObserver.disconnect();
-      if (animId !== null) {
-        cancelAnimationFrame(animId)
-      }
+      window.cancelAnimationFrame(animationFrameId!);
+      ro.disconnect();
     };
   }, []);
 
-  return [nodeRef, contentRect];
+  return [nodeRef, bounds];
 }
