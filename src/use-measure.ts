@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, RefObject } from "react";
 import ResizeObserver from "resize-observer-polyfill";
 export interface DOMRectReadOnly {
   readonly x: number;
@@ -11,8 +11,7 @@ export interface DOMRectReadOnly {
   readonly left: number;
 }
 
-export default function useMeasure() {
-  const nodeRef = useRef<Element>(null);
+export default function useMeasure(ref: RefObject<HTMLElement | null>) {
   const [bounds, setContentRect] = useState<DOMRectReadOnly>(
     // DOMRectReadOnly.fromRect()
     { x: 0, y: 0, width: 0, height: 0, top: 0, right: 0, bottom: 0, left: 0 }
@@ -27,7 +26,7 @@ export default function useMeasure() {
     };
 
     const ro = new ResizeObserver(measure);
-    ro.observe(nodeRef.current!);
+    ro.observe(ref.current!);
 
     return () => {
       window.cancelAnimationFrame(animationFrameId!);
@@ -35,5 +34,5 @@ export default function useMeasure() {
     };
   }, []);
 
-  return [nodeRef, bounds];
+  return bounds;
 }
