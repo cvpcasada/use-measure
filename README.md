@@ -21,10 +21,12 @@ yarn add use-measure
 ## Usage
 
 ```jsx
+import { useRef } from "react";
 import useMeasure from "use-measure";
 
 function MeasuredDiv() {
-  const [nodeRef, measurement] = useMeasure();
+  const nodeRef = useRef();
+  const measurement = useMeasure(nodeRef);
   
   // do whatever you want with measurement obj.
   // note that measurement will only be available after first render.
