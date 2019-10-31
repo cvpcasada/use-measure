@@ -18,6 +18,10 @@ export default function useMeasure(ref: RefObject<HTMLElement | null>) {
   );
 
   useLayoutEffect(() => {
+    if (ref.current === null) {
+      return;
+    }
+    
     let animationFrameId : number | null = null;
     const measure: ResizeObserverCallback = ([entry]) => {
       animationFrameId = window.requestAnimationFrame(() => {
